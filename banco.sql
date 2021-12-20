@@ -1,38 +1,44 @@
+CREATE DATABASE bdSistemaEscolar;
+
+USE bdSistemaEscolar;
+
+CREATE TABLE Permissao(
+	idPermissao int auto_increment primary key,
+    
+    nomePermissao CHAR(100)
+);
+
+
 CREATE TABLE Conta(
-	idConta int NOT NULL AUTO_INCREMENT,
-    PRIMARY KEY (idConta),
+	idConta int auto_increment primary key,
+
     login CHAR(100)  NOT NULL,
     senha CHAR(100)  NOT NULL,
     nomeCompleto CHAR(200) NOT NULL,
     idPermissao int NOT NULL,
     FOREIGN KEY (idPermissao) REFERENCES Permissao(idPermissao)
 );
-
-CREATE TABLE Permissao(
-	idPermissao int NOT NULL AUTO_INCREMENT,
-    PRIMARY KEY (idPermissao),
-    nomePermissao CHAR(100)
+CREATE TABLE Serie(
+	idSerie int auto_increment primary key,
+ 
+    numero int,
+    letra CHAR(1)
 );
 
 CREATE TABLE Turma(
-	idTurma int NOT NULL AUTO_INCREMENT,
-    PRIMARY KEY (idTurma),
+	idTurma int auto_increment primary key,
+   
     idSerie int,
     FOREIGN KEY (idSerie) REFERENCES Serie(idSerie),
     ano DATE,
     statusTurma int NOT NULL default 1
 );
 
-CREATE TABLE Serie(
-	idSerie int NOT NULL AUTO_INCREMENT,
-    PRIMARY KEY (idSerie),
-    numero int,
-    letra CHAR(1)
-);
+
 
 CREATE TABLE ParticipacaoTurma(
-	idParticipacao int NOT NULL AUTO_INCREMENT,
-    PRIMARY KEY (idParticipacao),
+	idParticipacao int auto_increment primary key,
+
 	idConta int,
     FOREIGN KEY (idConta) REFERENCES Conta(idConta),
     idTurma int,
