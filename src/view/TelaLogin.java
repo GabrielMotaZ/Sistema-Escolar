@@ -169,6 +169,35 @@ public class TelaLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLoginActionPerformed
+        logar();
+
+    }//GEN-LAST:event_btLoginActionPerformed
+
+    private void txtUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtUsuarioMouseClicked
+        txtUsuario.setText("");
+
+    }//GEN-LAST:event_txtUsuarioMouseClicked
+
+    private void txtUsuarioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsuarioFocusLost
+        txtSenha.setText("");
+    }//GEN-LAST:event_txtUsuarioFocusLost
+
+    private void txtSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSenhaKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            logar();
+        }// TODO add your handling code here:
+    }//GEN-LAST:event_txtSenhaKeyPressed
+
+    private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
+        TelaCadastro telacadastro = new TelaCadastro();
+        telacadastro.setVisible(true);
+
+    }//GEN-LAST:event_btCadastrarActionPerformed
+
+    private void txtSenhaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtSenhaMouseClicked
+        txtSenha.setText("");    }//GEN-LAST:event_txtSenhaMouseClicked
+
+    private void logar() {
         Conta usuario = new Conta();
         usuario.setLogin(txtUsuario.getText());
         usuario.setSenha(txtSenha.getText());
@@ -186,32 +215,7 @@ public class TelaLogin extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Erro TELALOGIN: " + erro);
         }
 
-
-    }//GEN-LAST:event_btLoginActionPerformed
-
-    private void txtUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtUsuarioMouseClicked
-        txtUsuario.setText("");
-
-    }//GEN-LAST:event_txtUsuarioMouseClicked
-
-    private void txtUsuarioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsuarioFocusLost
-        txtSenha.setText("");
-    }//GEN-LAST:event_txtUsuarioFocusLost
-
-    private void txtSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSenhaKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            //logar
-        }// TODO add your handling code here:
-    }//GEN-LAST:event_txtSenhaKeyPressed
-
-    private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
-        TelaCadastro telacadastro = new TelaCadastro();
-        telacadastro.setVisible(true);
-
-    }//GEN-LAST:event_btCadastrarActionPerformed
-
-    private void txtSenhaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtSenhaMouseClicked
-        txtSenha.setText("");    }//GEN-LAST:event_txtSenhaMouseClicked
+    }
 
     /**
      * @param args the command line arguments
