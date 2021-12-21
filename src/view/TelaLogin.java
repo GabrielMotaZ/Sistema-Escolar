@@ -49,9 +49,10 @@ public class TelaLogin extends javax.swing.JFrame {
         btCadastrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Sistema Escolar");
+        setTitle("Sistema Escolar - Login");
         setResizable(false);
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setPreferredSize(new java.awt.Dimension(400, 300));
 
         lbLogin.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
