@@ -8,7 +8,7 @@ import java.sql.Statement;
 public class Database {
     public static Connection Conectar(){
         try{
-            Connection conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/sistemaescolar", "java", "java");
+            Connection conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/sistemaescolar", "root", "root");
             return conexao;
         }
         catch (Exception e){
