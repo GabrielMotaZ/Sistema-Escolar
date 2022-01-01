@@ -42,13 +42,13 @@ CREATE TABLE ParticipacaoTurma(
 CREATE VIEW vwTurma AS
 SELECT C.idConta, C.nomeCompleto, P.nomePermissao, T.ano as anoDeInicio, S.numero, S.letra
 FROM Conta C
-	INNER JOIN Permissao P
+	LEFT JOIN Permissao P
 		ON C.idPermissao = P.idPermissao
-	INNER JOIN ParticipacaoTurma PT
+	LEFT JOIN ParticipacaoTurma PT
 		ON C.idConta = PT.idConta
-	INNER JOIN Turma T
+	LEFT JOIN Turma T
 		ON PT.idTurma = T.idTurma
-	INNER JOIN Serie S
+	LEFT JOIN Serie S
 		ON T.idSerie = S.idSerie;
         
        

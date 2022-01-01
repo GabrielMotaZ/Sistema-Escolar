@@ -4,6 +4,7 @@ import Controllers.ContaController;
 import Models.Conta;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
@@ -21,6 +22,8 @@ public class login extends JFrame{
         super(title);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setMinimumSize(new Dimension(500,300));
+        this.setLocationRelativeTo(null);
         this.setContentPane(pnlLogin);
         this.pack();
         btnRegistro.addActionListener(new ActionListener() {
@@ -28,6 +31,7 @@ public class login extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 JFrame frame = new cadastro("Cadastrar");
                 frame.setVisible(true);
+                frame.setMinimumSize(new Dimension(200,300));
             }
         });
         btnLogin.addActionListener(new ActionListener() {
@@ -38,16 +42,18 @@ public class login extends JFrame{
                 conta.setSenha(String.valueOf(pfSenha.getPassword()));
                 ResultSet resultado = ContaController.Login(conta);
                 try{
-                    resultado.first();
+                    resultado.next();
                     conta.setIdPermissao(Integer.parseInt(resultado.getString("idPermissao")));
                     conta.setIdConta(Integer.parseInt(resultado.getString("idConta")));
                     conta.setNomeCompleto(resultado.getString("nomeCompleto"));
+                    JFrame frameMenu = new menu("Menu", conta);
+                    frameMenu.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                    frameMenu.setVisible(true);
                 }
                 catch(Exception e2){
-                    System.out.println("Erro na leitura");
+                    JOptionPane.showMessageDialog(null, "Nome ou senha inválidos");
+                    System.out.println("Erro na leitura: " + e2);
                 }
-                JFrame frame = new menu("Menu", conta);
-                frame.setVisible(true);
             }
         });
     }

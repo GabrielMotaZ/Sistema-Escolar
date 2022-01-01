@@ -17,7 +17,8 @@ public class ContaController {
     }
 
     public static ResultSet Login(Conta conta) {
-        String str = String.format("SELECT idPermissao, idConta WHERE login = '%s' AND senha = '%s';", conta.getLogin(), conta.getSenha());
+        String str = String.format("SELECT idPermissao, idConta, nomeCompleto FROM Conta WHERE login = " +
+                "'%s' AND senha = '%s';", conta.getLogin(), conta.getSenha());
 
         Connection conexao = Database.Conectar();
 
