@@ -46,9 +46,8 @@ public class login extends JFrame{
                     conta.setIdPermissao(Integer.parseInt(resultado.getString("idPermissao")));
                     conta.setIdConta(Integer.parseInt(resultado.getString("idConta")));
                     conta.setNomeCompleto(resultado.getString("nomeCompleto"));
-                    JFrame frameMenu = new menu("Menu", conta);
-                    frameMenu.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                    frameMenu.setVisible(true);
+                    SwingUtilities.invokeLater(() -> new menu().createAndShowGui(conta));
+                    dispose();
                 }
                 catch(Exception e2){
                     JOptionPane.showMessageDialog(null, "Nome ou senha inválidos");

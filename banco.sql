@@ -1,3 +1,9 @@
+CREATE TABLE Permissao(
+	idPermissao int NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY (idPermissao),
+    nomePermissao CHAR(100)
+);
+
 CREATE TABLE Conta(
 	idConta int NOT NULL AUTO_INCREMENT,
     PRIMARY KEY (idConta),
@@ -8,10 +14,11 @@ CREATE TABLE Conta(
     FOREIGN KEY (idPermissao) REFERENCES Permissao(idPermissao)
 );
 
-CREATE TABLE Permissao(
-	idPermissao int NOT NULL AUTO_INCREMENT,
-    PRIMARY KEY (idPermissao),
-    nomePermissao CHAR(100)
+CREATE TABLE Serie(
+	idSerie int NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY (idSerie),
+    numero int,
+    letra CHAR(1)
 );
 
 CREATE TABLE Turma(
@@ -21,13 +28,6 @@ CREATE TABLE Turma(
     FOREIGN KEY (idSerie) REFERENCES Serie(idSerie),
     ano DATE,
     statusTurma int NOT NULL default 1
-);
-
-CREATE TABLE Serie(
-	idSerie int NOT NULL AUTO_INCREMENT,
-    PRIMARY KEY (idSerie),
-    numero int,
-    letra CHAR(1)
 );
 
 CREATE TABLE ParticipacaoTurma(
@@ -40,7 +40,7 @@ CREATE TABLE ParticipacaoTurma(
 );
 
 CREATE VIEW vwTurma AS
-SELECT C.idConta, C.nomeCompleto, P.nomePermissao, T.ano as anoDeInicio, S.numero, S.letra
+SELECT C.idConta, C.nomeCompleto, P.nomePermissao, T.ano as anoInicio, T.statusTurma, T.idTurma, S.numero, S.letra, S.idSerie
 FROM Conta C
 	LEFT JOIN Permissao P
 		ON C.idPermissao = P.idPermissao
@@ -50,5 +50,27 @@ FROM Conta C
 		ON PT.idTurma = T.idTurma
 	LEFT JOIN Serie S
 		ON T.idSerie = S.idSerie;
-        
-       
+
+insert into Permissao(nomePermissao) values('Aluno');
+
+insert into Permissao(nomePermissao) values('Professor');
+
+insert into Serie(numero, letra) values(1, 'A');
+
+insert into Serie(numero, letra) values(1, 'B');
+
+insert into Turma(idSerie, ano, statusTurma) values(1, '20200101', 1);
+
+insert into Turma(idSerie, ano, statusTurma) values(1, '20210101', 1);
+
+insert into Conta(login, senha, nomeCompleto, idpermissao) values('login', 'senha', 'Login Senha Nome', 1);
+
+insert into Conta(login, senha, nomeCompleto, idpermissao) values('login2', 'senha2', 'Login Senha Nome2', 1);
+
+insert into Conta(login, senha, nomeCompleto, idpermissao) values('login3', 'senha3', 'Login Senha Nome3', 1);
+
+insert into ParticipacaoTurma(idConta, idTurma) values(1, 1);
+
+insert into ParticipacaoTurma(idConta, idTurma) values(2, 2);
+
+insert into ParticipacaoTurma(idConta, idTurma) values(3, 2);
