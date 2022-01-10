@@ -3,24 +3,23 @@ package Database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JOptionPane;
 
 public class Database {
-    public static Connection Conectar(){
+    public Connection Conectar(Connection conexao){
         try{
-            Connection conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/sistemaescolar", "java", "java");
+            conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/sistemaescolar", "root", "016306");
             return conexao;
         }
-        catch (Exception e){
-            Connection conexao = null;
-            System.out.println("Falha ao conectar no banco");
-            System.out.println(e);
+        catch (SQLException erro){
+            JOptionPane.showMessageDialog(null, "Falha ao conectar no banco");
             return conexao;
         }
     }
 
-    public static ResultSet ExecutarQuery(String string, Connection conexao){
-        ResultSet resultado;
+    public static ResultSet Executar(String string, Connection conexao, ResultSet resultado){
         try {
             Statement declaracao = conexao.createStatement();
 
@@ -29,46 +28,28 @@ public class Database {
             return resultado;
         }
 
-        catch(Exception e){
-            resultado = null;
-            System.out.println(e);
-            System.out.println(string);
-            return resultado;
-        }
-    }
-
-    public static int ExecutarUpdate(String string, Connection conexao){
-        int resultado;
-        try {
-            Statement declaracao = conexao.createStatement();
-
-            resultado = declaracao.executeUpdate(string);
-
-            return resultado;
-        }
-
-        catch(Exception e){
-            resultado = 0;
-            System.out.println(e);
-            System.out.println(string);
+        catch(SQLException erro){
+            System.out.println(erro);
             return resultado;
         }
     }
 
     public static void main(String[] args) {
         Connection conexao = null;
-        ResultSet resultado = null;
+        ResultSet resultado = null; 
         String str = "select * from Conta";
-
-        conexao = Conectar();
-        resultado = ExecutarQuery(str, conexao);
+        
+        Database db = new Database();
+        conexao = db.Conectar(conexao);
+        resultado = Executar(str, conexao, resultado);
         try {
             while (resultado.next()) {
                 System.out.println("login: " + resultado.getString("login") + " senha: " + resultado.getString("senha"));
             }
         }
-        catch (Exception e){
-            System.out.println(e);
+        catch (SQLException erro){
+            System.out.println(erro);
         }
     }
+
 }
