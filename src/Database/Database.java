@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JOptionPane;
 
 public class Database {
     public Connection Conectar(Connection conexao){
@@ -13,7 +14,7 @@ public class Database {
             return conexao;
         }
         catch (SQLException erro){
-            System.out.println("1*Falha ao conectar no banco");
+            JOptionPane.showMessageDialog(null, "Falha ao conectar no banco");
             return conexao;
         }
     }

@@ -13,7 +13,7 @@ public class Aluno {
     private String turma;
     private String disciplina;
     private int nota;
-    private int presenca; 
+    private int faltas; 
 
     public String getSerie() {
         return serie;
@@ -47,12 +47,12 @@ public class Aluno {
         this.nota = nota;
     }
 
-    public int getPresenca() {
-        return presenca;
+    public int getFaltas() {
+        return faltas;
     }
 
-    public void setPresenca(int presenca) {
-        this.presenca = presenca;
+    public void setFaltas(int faltas) {
+        this.faltas = faltas;
     }
     
     

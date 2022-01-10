@@ -29,7 +29,7 @@ public class ContaController {
     public void criarConta(Conta obj) {
         try {
             //comando sql
-            String str = "insert into bdsistemaescolar.conta(login, senha, nomeCompleto, idPermissao) values (?, ?, ?, ?)";
+            String str = "insert into sistemaescolar.conta(login, senha, nomeCompleto, idPermissao) values (?, ?, ?, ?)";
             PreparedStatement stmt = con.prepareStatement(str);
 
             stmt.setString(1, obj.getLogin());
@@ -47,7 +47,6 @@ public class ContaController {
             }
 
         } catch (SQLException erro) {
-
             JOptionPane.showMessageDialog(null, "Erro CONTACONTROLLER: " + erro);
         }
     }
@@ -57,7 +56,7 @@ public class ContaController {
         try {
 
             //comando sql
-            String str = "select * from bdsistemaescolar.conta where login = ? and senha = ?";
+            String str = "select * from sistemaescolar.conta where login = ? and senha = ?";
 
             PreparedStatement stmt = con.prepareStatement(str);
             stmt.setString(1, login);
@@ -71,6 +70,7 @@ public class ContaController {
                     TelaMenu telamenu = new TelaMenu();
                     telamenu.setVisible(true);
                     telamenu.usuarioLogado = rs.getString("nomeCompleto");
+                    telamenu.idUsuario = rs.getString("idConta");
                     telamenu.permissaoUsuario = "Aluno";
                     //desabilita funcoes de aluno
                     telamenu.menuProfessor.setVisible(false);
@@ -107,7 +107,7 @@ public class ContaController {
             List<Aluno> lista = new ArrayList<>();
 
             //2 passo - criar o sql , organizar e executar.
-            String sql = "select * from aluno where nome = ?";
+            String sql = "select * from vwBoletim where nomeCompleto = ?";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, nome);
             ResultSet rs = stmt.executeQuery();
@@ -116,10 +116,10 @@ public class ContaController {
                 Aluno obj = new Aluno();
  
                 obj.setNota(rs.getInt("nota"));
-                obj.setDisciplina(rs.getString("disciplina"));
-                obj.setSerie(rs.getString("serie"));
-                obj.setTurma(rs.getString("turma"));
-                obj.setPresenca(rs.getInt("presenca"));
+                obj.setDisciplina(rs.getString("Disciplina"));
+                //obj.setSerie(rs.getString("serie"));
+                //obj.setTurma(rs.getString("turma"));
+                obj.setFaltas(rs.getInt("faltas"));
                 lista.add(obj);
             }
 

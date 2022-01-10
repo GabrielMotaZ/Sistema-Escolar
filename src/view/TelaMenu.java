@@ -9,9 +9,9 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.util.List;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import models.Aluno;
-import view.TelaLogin;
 
 /**
  *
@@ -25,6 +25,7 @@ public class TelaMenu extends javax.swing.JFrame {
     }
     public String usuarioLogado;
     public String permissaoUsuario;
+    public String idUsuario;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -84,13 +85,12 @@ public class TelaMenu extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         menuAluno = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
         menuProfessor = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
         menuConfig = new javax.swing.JMenu();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        menuSair = new javax.swing.JMenu();
 
         FrBoletim.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         FrBoletim.setTitle("Boletim");
@@ -104,30 +104,50 @@ public class TelaMenu extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel1.setText("Nome:");
 
+        lblNomeBol.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         lblNomeBol.setText("jLabel2");
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel3.setText("RA (id):");
 
+        lblId.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         lblId.setText("jLabel4");
 
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel5.setText("Série:");
 
+        lblSerie.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         lblSerie.setText("jLabel6");
 
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel7.setText("Turma:");
 
+        lblTurma.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         lblTurma.setText("jLabel8");
 
+        tabelaNotas.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         tabelaNotas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Disciplinas", "Notas", "Aulas Dadas", "Presenças"
+                "Disciplinas", "Notas", "Faltas"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabelaNotas.setGridColor(new java.awt.Color(220, 220, 220));
+        tabelaNotas.setRowHeight(18);
+        tabelaNotas.setSelectionBackground(new java.awt.Color(153, 204, 255));
         jScrollPane1.setViewportView(tabelaNotas);
 
         jButton1.setText("Voltar");
@@ -149,42 +169,46 @@ public class TelaMenu extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblNomeBol)
-                                    .addComponent(lblId)))
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblNomeBol))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
+                                .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblTurma)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(lblId)))
+                        .addGap(130, 130, 130)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblSerie)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 13, Short.MAX_VALUE))
+                                .addComponent(lblSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblTurma)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 12, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(lblNomeBol)
-                    .addComponent(jLabel5)
-                    .addComponent(lblSerie)
-                    .addComponent(jButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(lblId)
-                    .addComponent(jLabel7)
-                    .addComponent(lblTurma))
+                .addContainerGap(19, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(lblNomeBol)
+                            .addComponent(jLabel5)
+                            .addComponent(lblSerie))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(lblId)
+                            .addComponent(jLabel7)
+                            .addComponent(lblTurma)))
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
@@ -194,21 +218,22 @@ public class TelaMenu extends javax.swing.JFrame {
         FrBoletim.getContentPane().setLayout(FrBoletimLayout);
         FrBoletimLayout.setHorizontalGroup(
             FrBoletimLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 472, Short.MAX_VALUE)
-            .addGroup(FrBoletimLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        FrBoletimLayout.setVerticalGroup(
-            FrBoletimLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 427, Short.MAX_VALUE)
+            .addGap(0, 443, Short.MAX_VALUE)
             .addGroup(FrBoletimLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(FrBoletimLayout.createSequentialGroup()
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 81, Short.MAX_VALUE)))
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        FrBoletimLayout.setVerticalGroup(
+            FrBoletimLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 440, Short.MAX_VALUE)
+            .addGroup(FrBoletimLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(FrBoletimLayout.createSequentialGroup()
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 84, Short.MAX_VALUE)))
         );
 
         FrAddNotaEPresenca.setMinimumSize(new java.awt.Dimension(361, 262));
-        FrAddNotaEPresenca.setPreferredSize(new java.awt.Dimension(361, 262));
 
         jLabel2.setText("Professor: ");
 
@@ -372,7 +397,6 @@ public class TelaMenu extends javax.swing.JFrame {
         setTitle("Sistema Escolar - Menu");
         setLocation(new java.awt.Point(500, 200));
         setMinimumSize(new java.awt.Dimension(770, 450));
-        setPreferredSize(new java.awt.Dimension(770, 450));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
@@ -441,10 +465,6 @@ public class TelaMenu extends javax.swing.JFrame {
         });
         menuAluno.add(jMenuItem1);
 
-        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/advertencia.png"))); // NOI18N
-        jMenuItem5.setText("Avertências");
-        menuAluno.add(jMenuItem5);
-
         jMenuBar1.add(menuAluno);
 
         menuProfessor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/professora.png"))); // NOI18N
@@ -468,24 +488,28 @@ public class TelaMenu extends javax.swing.JFrame {
         });
         menuProfessor.add(jMenuItem3);
 
-        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/nova_advertencia.png"))); // NOI18N
-        jMenuItem4.setText("Advertir");
-        menuProfessor.add(jMenuItem4);
-
-        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/search.png"))); // NOI18N
-        jMenuItem6.setText("Buscar Aluno");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
-            }
-        });
-        menuProfessor.add(jMenuItem6);
-
         jMenuBar1.add(menuProfessor);
 
         menuConfig.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/configuracoes.png"))); // NOI18N
         menuConfig.setText("Configurações");
+
+        jMenuItem7.setText("Trocar de Usuário");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        menuConfig.add(jMenuItem7);
+
         jMenuBar1.add(menuConfig);
+
+        menuSair.setText("Sair");
+        menuSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuSairActionPerformed(evt);
+            }
+        });
+        jMenuBar1.add(menuSair);
 
         setJMenuBar(jMenuBar1);
 
@@ -520,7 +544,7 @@ public class TelaMenu extends javax.swing.JFrame {
             dados.addRow(new Object[]{
                 a.getDisciplina(),
                 a.getNota(),
-                a.getPresenca(),});
+                a.getFaltas(),});
         }
     }
 
@@ -528,7 +552,7 @@ public class TelaMenu extends javax.swing.JFrame {
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         lblUsuarioLogado.setText(usuarioLogado);
         lblPermissaoObtida.setText(permissaoUsuario);
-        //listar()
+        
 
 
     }//GEN-LAST:event_formWindowActivated
@@ -541,18 +565,11 @@ public class TelaMenu extends javax.swing.JFrame {
         FrAddNotaEPresenca.setVisible(true);        // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
-
     private void FrBoletimWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_FrBoletimWindowActivated
         lblNomeBol.setText(lblUsuarioLogado.getText());
-        //listar();
+        lblId.setText(idUsuario);
+        listar();
     }//GEN-LAST:event_FrBoletimWindowActivated
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        FrBoletim.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         FrAddNotaEPresenca.setVisible(true);        // TODO add your handling code here:
@@ -561,6 +578,18 @@ public class TelaMenu extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        FrBoletim.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void menuSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSairActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_menuSairActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -626,9 +655,7 @@ public class TelaMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -648,6 +675,7 @@ public class TelaMenu extends javax.swing.JFrame {
     public javax.swing.JMenu menuAluno;
     private javax.swing.JMenu menuConfig;
     public javax.swing.JMenu menuProfessor;
+    private javax.swing.JMenu menuSair;
     private javax.swing.JDesktopPane painelFundo;
     private javax.swing.JTable tabelaNotas;
     // End of variables declaration//GEN-END:variables
