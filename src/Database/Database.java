@@ -10,11 +10,11 @@ import javax.swing.JOptionPane;
 public class Database {
     public Connection Conectar(Connection conexao){
         try{
-            conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/sistemaescolar", "root", "016306");
+            conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/sistemaescolar", "java", "java");
             return conexao;
         }
         catch (SQLException erro){
-            JOptionPane.showMessageDialog(null, "Falha ao conectar no banco");
+            JOptionPane.showMessageDialog(null, "Falha ao conectar no banco" + erro);
             return conexao;
         }
     }

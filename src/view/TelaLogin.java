@@ -192,10 +192,12 @@ public class TelaLogin extends javax.swing.JFrame {
 
     private void btLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLoginActionPerformed
        String usuario = txtUsuario.getText();
-       String senha = txtSenha.getText();
+       String senha = String.valueOf(txtSenha.getPassword());;
        int logou = cc.fazerLogin(usuario, senha);
        if (logou ==1) {
            this.dispose();
+       } else{
+           JOptionPane.showMessageDialog(this, "Senha errada", "Warning", JOptionPane.WARNING_MESSAGE);
        }
     }//GEN-LAST:event_btLoginActionPerformed
 

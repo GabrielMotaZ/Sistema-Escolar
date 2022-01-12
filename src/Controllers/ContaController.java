@@ -56,7 +56,7 @@ public class ContaController {
         try {
 
             //comando sql
-            String str = "select * from sistemaescolar.conta where login = ? and senha = ?";
+            String str = "select * from sistemaescolar.conta where login = ? and senha = ?;";
 
             PreparedStatement stmt = con.prepareStatement(str);
             stmt.setString(1, login);
@@ -66,7 +66,7 @@ public class ContaController {
 
             if (rs.next()) {
                 //caso aluno
-                if (rs.getInt("idPermissao") == 1) {
+                if (rs.getInt("idPermissao") == 3) {
                     TelaMenu telamenu = new TelaMenu();
                     telamenu.setVisible(true);
                     telamenu.usuarioLogado = rs.getString("nomeCompleto");
@@ -76,7 +76,7 @@ public class ContaController {
                     telamenu.menuProfessor.setVisible(false);
                     //caso professor   
                     return 1;
-                } else if (rs.getInt("idPermissao") == 2) {
+                } else if (rs.getInt("idPermissao") == 4) {
                     TelaMenu telamenu = new TelaMenu();
                     telamenu.setVisible(true);
                     telamenu.usuarioLogado = rs.getString("nomeCompleto");
@@ -120,6 +120,37 @@ public class ContaController {
                 //obj.setSerie(rs.getString("serie"));
                 //obj.setTurma(rs.getString("turma"));
                 obj.setFaltas(rs.getInt("faltas"));
+                lista.add(obj);
+            }
+
+            return lista;
+
+        } catch (SQLException erro) {
+
+            JOptionPane.showMessageDialog(null, "Erro :" + erro);
+            return null;
+        }
+
+    }
+
+    public List<Conta> ListarAlunos() {
+        try {
+
+            //1 passo criar a lista
+            List<Conta> lista = new ArrayList<>();
+
+            //2 passo - criar o sql , organizar e executar.
+            String sql = "select * from conta where idPermissao = 3";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Conta obj = new Conta();
+ 
+                obj.setNomeCompleto(rs.getString("nomeCompleto"));
+                //obj.setSerie(rs.getString("serie"));
+                //obj.setTurma(rs.getString("turma"));
+                obj.setIdConta(rs.getInt("idConta"));
                 lista.add(obj);
             }
 

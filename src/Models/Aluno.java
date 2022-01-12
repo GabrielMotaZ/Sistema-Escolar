@@ -12,6 +12,7 @@ public class Aluno {
     private String serie;
     private String turma;
     private String disciplina;
+    private String RA;
     private int nota;
     private int faltas; 
 
@@ -21,6 +22,14 @@ public class Aluno {
 
     public void setSerie(String serie) {
         this.serie = serie;
+    }
+
+    public String getRA() {
+        return RA;
+    }
+
+    public void setRA(String RA) {
+        this.RA = RA;
     }
 
     public String getTurma() {
