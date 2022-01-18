@@ -23,7 +23,8 @@ public class TelaLogin extends javax.swing.JFrame {
      * Creates new form TelaLogin
      */
     public ContaController cc = new ContaController();
-    public boolean logou = false;
+    public static int logou = 0;
+
     public TelaLogin() {
         initComponents();
         this.getContentPane().setBackground(Color.WHITE);
@@ -42,7 +43,7 @@ public class TelaLogin extends javax.swing.JFrame {
         lbUsuario = new javax.swing.JLabel();
         lbSenha = new javax.swing.JLabel();
         txtUsuario = new javax.swing.JTextField();
-        txtSenha = new javax.swing.JPasswordField();
+        pfSenha = new javax.swing.JPasswordField();
         btLogin = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         btCadastrar = new javax.swing.JButton();
@@ -76,17 +77,22 @@ public class TelaLogin extends javax.swing.JFrame {
             }
         });
 
-        txtSenha.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtSenha.setForeground(new java.awt.Color(130, 130, 136));
-        txtSenha.setText("jPasswor");
-        txtSenha.addMouseListener(new java.awt.event.MouseAdapter() {
+        pfSenha.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        pfSenha.setForeground(new java.awt.Color(130, 130, 136));
+        pfSenha.setText("jPasswor");
+        pfSenha.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txtSenhaMouseClicked(evt);
+                pfSenhaMouseClicked(evt);
             }
         });
-        txtSenha.addKeyListener(new java.awt.event.KeyAdapter() {
+        pfSenha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pfSenhaActionPerformed(evt);
+            }
+        });
+        pfSenha.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtSenhaKeyPressed(evt);
+                pfSenhaKeyPressed(evt);
             }
         });
 
@@ -125,7 +131,7 @@ public class TelaLogin extends javax.swing.JFrame {
                         .addComponent(btLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 6, Short.MAX_VALUE))
                     .addComponent(txtUsuario)
-                    .addComponent(txtSenha))
+                    .addComponent(pfSenha))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -137,7 +143,7 @@ public class TelaLogin extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbSenha)
-                    .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(8, 8, 8)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btLogin)
@@ -188,17 +194,18 @@ public class TelaLogin extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLoginActionPerformed
-       String usuario = txtUsuario.getText();
-       String senha = String.valueOf(txtSenha.getPassword());;
-       int logou = cc.fazerLogin(usuario, senha);
-       if (logou ==1) {
-           this.dispose();
-       } else{
-           JOptionPane.showMessageDialog(this, "Senha errada", "Warning", JOptionPane.WARNING_MESSAGE);
-       }
+        String usuario = txtUsuario.getText();
+        String senha = String.valueOf(pfSenha.getPassword());;
+        logou = cc.fazerLogin(usuario, senha);
+        if (logou == 1) {
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Usuário ou senha inválidos!", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_btLoginActionPerformed
 
     private void txtUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtUsuarioMouseClicked
@@ -207,21 +214,8 @@ public class TelaLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUsuarioMouseClicked
 
     private void txtUsuarioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsuarioFocusLost
-        txtSenha.setText("");
+        pfSenha.setText("");
     }//GEN-LAST:event_txtUsuarioFocusLost
-
-    private void txtSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSenhaKeyPressed
-        String usuario = txtUsuario.getText();
-        String senha = txtSenha.getText();
-        
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            int logou = cc.fazerLogin(usuario, senha);
-            if (logou ==1){
-                this.dispose();
-            }
-            
-        }// TODO add your handling code here:
-    }//GEN-LAST:event_txtSenhaKeyPressed
 
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
         TelaCadastro telacadastro = new TelaCadastro();
@@ -229,14 +223,32 @@ public class TelaLogin extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btCadastrarActionPerformed
 
-    private void txtSenhaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtSenhaMouseClicked
-        txtSenha.setText("");    }//GEN-LAST:event_txtSenhaMouseClicked
+    private void pfSenhaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pfSenhaMouseClicked
+        pfSenha.setText("");    }//GEN-LAST:event_pfSenhaMouseClicked
+
+    private void pfSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pfSenhaKeyPressed
+        String usuario = txtUsuario.getText();
+        String senha = String.valueOf(pfSenha.getPassword());;
+
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            
+            logou = cc.fazerLogin(usuario, senha);
+            if (logou == 1) {
+                this.dispose();
+            }else {
+            JOptionPane.showMessageDialog(this, "Usuário ou senha inválidos!", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_pfSenhaKeyPressed
+
+    private void pfSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pfSenhaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pfSenhaActionPerformed
 
     /**
      * @param args the command line arguments
      */
-
-    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -279,7 +291,7 @@ public class TelaLogin extends javax.swing.JFrame {
     private javax.swing.JLabel lbLogin;
     private javax.swing.JLabel lbSenha;
     private javax.swing.JLabel lbUsuario;
-    private javax.swing.JPasswordField txtSenha;
+    private javax.swing.JPasswordField pfSenha;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 
