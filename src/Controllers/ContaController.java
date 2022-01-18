@@ -10,6 +10,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import models.Aluno;
 import models.Conta;
+import models.Professor;
 import view.TelaLogin;
 import view.TelaMenu;
 
@@ -26,25 +27,58 @@ public class ContaController {
 
     //Metodo cadastrarCliente
     //recebera o objeto usuario da classe do model
-    public void criarConta(Conta obj) {
+    public void criarContaAluno(Aluno obj) {
         try {
             //comando sql
-            String str = "insert into sistemaescolar.conta(login, senha, nomeCompleto, idPermissao) values (?, ?, ?, ?)";
+            String str = "insert into conta(login, senha, nomeCompleto, idPermissao, fk_idSerie) values (?, ?, ?, ?, ?)";
             PreparedStatement stmt = con.prepareStatement(str);
 
             stmt.setString(1, obj.getLogin());
             stmt.setString(2, obj.getSenha());
             stmt.setString(3, obj.getNomeCompleto());
             stmt.setInt(4, obj.getIdPermissao());
+            stmt.setInt(5, obj.getIdSerie());
 
             stmt.execute();
             stmt.close();
+            
+            JOptionPane.showMessageDialog(null, "Aluno cadastrado com sucesso!");
+             
 
-            if (obj.getIdPermissao() == 1) {
-                JOptionPane.showMessageDialog(null, "Aluno cadastrado com sucesso!");
-            } else if (obj.getIdPermissao() == 2) {
-                JOptionPane.showMessageDialog(null, "Professor cadastrado com sucesso!");
-            }
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Erro CONTACONTROLLER: " + erro);
+        }
+    }
+    public void criarContaProfessor(Professor obj) {
+        try {
+            //comando sql
+            String str2 = "insert into disciplina (idDisciplina, nomeDisciplina) values (?,?)";
+            
+            PreparedStatement stmt2 = con.prepareStatement(str2);
+
+            stmt2.setInt(1, obj.getIdDisciplina());
+            stmt2.setString(2, obj.getNomeDisciplina());
+            
+            stmt2.execute();
+            stmt2.close();
+            
+            
+            String str = "insert into conta(login, senha, nomeCompleto, idPermissao, fk_idDisciplina) values (?, ?, ?, ?, ?)";
+            PreparedStatement stmt = con.prepareStatement(str);
+
+            stmt.setString(1, obj.getLogin());
+            stmt.setString(2, obj.getSenha());
+            stmt.setString(3, obj.getNomeCompleto());
+            stmt.setInt(4, obj.getIdPermissao());
+            stmt.setInt(5, obj.getIdDisciplina());
+
+            stmt.execute();
+            stmt.close();
+            
+          
+            
+            
+            JOptionPane.showMessageDialog(null, "Professor cadastrado com sucesso!");
 
         } catch (SQLException erro) {
             JOptionPane.showMessageDialog(null, "Erro CONTACONTROLLER: " + erro);
@@ -56,7 +90,7 @@ public class ContaController {
         try {
 
             //comando sql
-            String str = "select * from sistemaescolar.conta where login = ? and senha = ?;";
+            String str = "select * from conta where login = ? and senha = ?;";
 
             PreparedStatement stmt = con.prepareStatement(str);
             stmt.setString(1, login);
@@ -66,28 +100,32 @@ public class ContaController {
 
             if (rs.next()) {
                 //caso aluno
-                if (rs.getInt("idPermissao") == 3) {
+                if (rs.getInt("idPermissao") == 1) {
                     TelaMenu telamenu = new TelaMenu();
+                    
                     telamenu.setVisible(true);
                     telamenu.usuarioLogado = rs.getString("nomeCompleto");
                     telamenu.idUsuario = rs.getString("idConta");
                     telamenu.permissaoUsuario = "Aluno";
+                    telamenu.idSerie = rs.getInt("fk_idSerie");
                     //desabilita funcoes de aluno
                     telamenu.menuProfessor.setVisible(false);
+                    
                     //caso professor   
                     return 1;
-                } else if (rs.getInt("idPermissao") == 4) {
+                } else if (rs.getInt("idPermissao") == 2) {
                     TelaMenu telamenu = new TelaMenu();
                     telamenu.setVisible(true);
                     telamenu.usuarioLogado = rs.getString("nomeCompleto");
                     telamenu.permissaoUsuario = "Professor";
-
                     telamenu.menuAluno.setVisible(false);
+                    telamenu.idDisciplina = rs.getInt("fk_idDisciplina");
+                    telamenu.idSerie = 0;
 
                     return 1;
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Usuário ou senha inválidos!");
+                //JOptionPane.showMessageDialog(null, "Usuário ou senha inválidos!");
                 return 0;
             }
 
@@ -99,69 +137,4 @@ public class ContaController {
         return 0;
 
     }
-
-    public List<Aluno> listarNotas(String nome) {
-        try {
-
-            //1 passo criar a lista
-            List<Aluno> lista = new ArrayList<>();
-
-            //2 passo - criar o sql , organizar e executar.
-            String sql = "select * from vwBoletim where nomeCompleto = ?";
-            PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setString(1, nome);
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                Aluno obj = new Aluno();
- 
-                obj.setNota(rs.getInt("nota"));
-                obj.setDisciplina(rs.getString("Disciplina"));
-                //obj.setSerie(rs.getString("serie"));
-                //obj.setTurma(rs.getString("turma"));
-                obj.setFaltas(rs.getInt("faltas"));
-                lista.add(obj);
-            }
-
-            return lista;
-
-        } catch (SQLException erro) {
-
-            JOptionPane.showMessageDialog(null, "Erro :" + erro);
-            return null;
-        }
-
-    }
-
-    public List<Conta> ListarAlunos() {
-        try {
-
-            //1 passo criar a lista
-            List<Conta> lista = new ArrayList<>();
-
-            //2 passo - criar o sql , organizar e executar.
-            String sql = "select * from conta where idPermissao = 3";
-            PreparedStatement stmt = con.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                Conta obj = new Conta();
- 
-                obj.setNomeCompleto(rs.getString("nomeCompleto"));
-                //obj.setSerie(rs.getString("serie"));
-                //obj.setTurma(rs.getString("turma"));
-                obj.setIdConta(rs.getInt("idConta"));
-                lista.add(obj);
-            }
-
-            return lista;
-
-        } catch (SQLException erro) {
-
-            JOptionPane.showMessageDialog(null, "Erro :" + erro);
-            return null;
-        }
-
-    }
-
 }

@@ -8,20 +8,20 @@ package models;
  *
  * @author gabri
                                                          */
-public class Aluno {
-    private String serie;
+public class Aluno extends Conta {
+    private int idSerie;
     private String turma;
     private String disciplina;
     private String RA;
     private int nota;
     private int faltas; 
 
-    public String getSerie() {
-        return serie;
+    public int getIdSerie() {
+        return idSerie;
     }
 
-    public void setSerie(String serie) {
-        this.serie = serie;
+    public void setIdSerie(int idSerie) {
+        this.idSerie = idSerie;
     }
 
     public String getRA() {

@@ -4,10 +4,12 @@
  */
 package view;
 
+import models.Professor;
 import controllers.ContaController;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import models.Aluno;
 import models.Conta;
 
 /**
@@ -42,14 +44,12 @@ public class TelaCadastro extends javax.swing.JFrame {
         abaAluno = new javax.swing.JPanel();
         lbNome = new javax.swing.JLabel();
         lbSerie = new javax.swing.JLabel();
-        lbTurma = new javax.swing.JLabel();
         lbUsername = new javax.swing.JLabel();
         lbSenhaAluno = new javax.swing.JLabel();
         lbConfirmSenhaAl = new javax.swing.JLabel();
         txtNomeAluno = new javax.swing.JTextField();
         txtUsuario = new javax.swing.JTextField();
         cbSerie = new javax.swing.JComboBox<>();
-        cbTurma = new javax.swing.JComboBox<>();
         txtSenha = new javax.swing.JPasswordField();
         txtConfirmSenha = new javax.swing.JPasswordField();
         btEfetuarCadastroAl = new javax.swing.JButton();
@@ -61,12 +61,12 @@ public class TelaCadastro extends javax.swing.JFrame {
         lbDisciplina = new javax.swing.JLabel();
         txtUsuarioProf = new javax.swing.JTextField();
         txtNomeProf = new javax.swing.JTextField();
-        txtDisciplina = new javax.swing.JTextField();
         txtSenhaProf = new javax.swing.JPasswordField();
         txtConfirmSenhaProf = new javax.swing.JPasswordField();
         btEfetuarCadProf = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jPasswordField1 = new javax.swing.JPasswordField();
+        cbDisiciplina = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
 
         jLabel12.setText("jLabel12");
@@ -97,10 +97,7 @@ public class TelaCadastro extends javax.swing.JFrame {
         lbNome.setText("Nome Completo:");
 
         lbSerie.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lbSerie.setText("Série:");
-
-        lbTurma.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lbTurma.setText("Turma:");
+        lbSerie.setText("Série/Turma:");
 
         lbUsername.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lbUsername.setText("Nome de Usuário: ");
@@ -127,13 +124,9 @@ public class TelaCadastro extends javax.swing.JFrame {
             }
         });
 
-        cbSerie.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        cbSerie.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "5ª", "6ª", "7ª", "8ª", " " }));
+        cbSerie.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        cbSerie.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1- 1ª Série A", "2- 1ª Série B", "3- 2ª Série A", "4 -2ª Série B", "5- 3ª Série A", "6- 3ª Série B", " " }));
         cbSerie.setPreferredSize(new java.awt.Dimension(56, 23));
-
-        cbTurma.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        cbTurma.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "A", "B", " " }));
-        cbTurma.setPreferredSize(new java.awt.Dimension(56, 23));
 
         txtSenha.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtSenha.setForeground(new java.awt.Color(100, 100, 100));
@@ -145,11 +138,6 @@ public class TelaCadastro extends javax.swing.JFrame {
 
         txtConfirmSenha.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtConfirmSenha.setForeground(new java.awt.Color(100, 100, 100));
-        txtConfirmSenha.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtConfirmSenhaActionPerformed(evt);
-            }
-        });
         txtConfirmSenha.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtConfirmSenhaKeyPressed(evt);
@@ -171,24 +159,6 @@ public class TelaCadastro extends javax.swing.JFrame {
             .addGroup(abaAlunoLayout.createSequentialGroup()
                 .addGroup(abaAlunoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(abaAlunoLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(abaAlunoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbNome)
-                            .addComponent(lbUsername))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(abaAlunoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNomeAluno, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(15, 15, 15)
-                        .addComponent(lbSerie)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lbTurma)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbTurma, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(abaAlunoLayout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(lbSenhaAluno)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -197,9 +167,23 @@ public class TelaCadastro extends javax.swing.JFrame {
                         .addComponent(lbConfirmSenhaAl)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtConfirmSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btEfetuarCadastroAl)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                        .addComponent(btEfetuarCadastroAl)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(abaAlunoLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(abaAlunoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbNome)
+                            .addComponent(lbUsername))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(abaAlunoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtUsuario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtNomeAluno, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbSerie)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbSerie, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         abaAlunoLayout.setVerticalGroup(
             abaAlunoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -209,9 +193,7 @@ public class TelaCadastro extends javax.swing.JFrame {
                     .addComponent(txtNomeAluno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbNome)
                     .addComponent(lbSerie)
-                    .addComponent(cbSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbTurma)
-                    .addComponent(cbTurma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(abaAlunoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -263,8 +245,6 @@ public class TelaCadastro extends javax.swing.JFrame {
             }
         });
 
-        txtDisciplina.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
         txtSenhaProf.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtSenhaProf.setForeground(new java.awt.Color(100, 100, 100));
         txtSenhaProf.addActionListener(new java.awt.event.ActionListener() {
@@ -306,6 +286,9 @@ public class TelaCadastro extends javax.swing.JFrame {
             }
         });
 
+        cbDisiciplina.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        cbDisiciplina.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1- Português", "2- Matemática", "3- História", "4- Geografia", "5- Ciências", "6- Artes", "7- Educação Física", "8- Inglês", " " }));
+
         javax.swing.GroupLayout abaProfessorLayout = new javax.swing.GroupLayout(abaProfessor);
         abaProfessor.setLayout(abaProfessorLayout);
         abaProfessorLayout.setHorizontalGroup(
@@ -324,10 +307,10 @@ public class TelaCadastro extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(abaProfessorLayout.createSequentialGroup()
                                 .addComponent(txtNomeProf, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(lbDisciplina)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtDisciplina))))
+                                .addComponent(cbDisiciplina, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(abaProfessorLayout.createSequentialGroup()
                         .addComponent(lbSenhaProf)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -341,7 +324,7 @@ public class TelaCadastro extends javax.swing.JFrame {
                     .addGroup(abaProfessorLayout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPasswordField1)))
+                        .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         abaProfessorLayout.setVerticalGroup(
@@ -356,7 +339,7 @@ public class TelaCadastro extends javax.swing.JFrame {
                     .addComponent(lbNomeProf)
                     .addComponent(txtNomeProf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbDisciplina)
-                    .addComponent(txtDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbDisiciplina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(abaProfessorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(lbUsernameProf)
@@ -423,6 +406,7 @@ public class TelaCadastro extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
@@ -441,10 +425,6 @@ public class TelaCadastro extends javax.swing.JFrame {
     private void txtSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSenhaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSenhaActionPerformed
-
-    private void txtConfirmSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtConfirmSenhaActionPerformed
-        efetuarCadastroAluno();
-    }//GEN-LAST:event_txtConfirmSenhaActionPerformed
 
     private void txtUsuarioProfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuarioProfActionPerformed
         // TODO add your handling code here:
@@ -467,7 +447,7 @@ public class TelaCadastro extends javax.swing.JFrame {
             txtNomeProf.setEditable(false);
             txtSenhaProf.setEditable(false);
             txtConfirmSenhaProf.setEditable(false);
-            txtDisciplina.setEditable(false);
+            cbDisiciplina.setEnabled(false);
             txtUsuarioProf.setEditable(false);
         }
     }//GEN-LAST:event_formWindowActivated
@@ -485,7 +465,7 @@ public class TelaCadastro extends javax.swing.JFrame {
             txtNomeProf.setEditable(true);
             txtSenhaProf.setEditable(true);
             txtConfirmSenhaProf.setEditable(true);
-            txtDisciplina.setEditable(true);
+            cbDisiciplina.setEnabled(true);
             txtUsuarioProf.setEditable(true);
         }
 
@@ -512,12 +492,13 @@ public class TelaCadastro extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
     public int efetuarCadastroProf() {
 
-        Conta usuario = new Conta();
+        Professor usuario = new Professor();
         usuario.setIdPermissao(2);
         usuario.setLogin(txtUsuarioProf.getText());
         usuario.setNomeCompleto(txtNomeProf.getText());
         usuario.setSenha(txtSenhaProf.getText());
-
+        usuario.setIdDisciplina(cbDisiciplina.getSelectedIndex()+1);
+        usuario.setNomeDisciplina(cbDisiciplina.getSelectedItem().toString().substring(3));
         if (txtUsuarioProf.getText().isEmpty() || txtNomeProf.getText().isEmpty() || !txtSenhaProf.getText().equals(txtConfirmSenhaProf.getText())) {
             if (!txtSenhaProf.getText().equals(txtConfirmSenhaProf.getText())) {
                 JOptionPane.showMessageDialog(null, "Senhas não coincidem!");
@@ -527,7 +508,7 @@ public class TelaCadastro extends javax.swing.JFrame {
             return 0;
         }
         try {
-            cc.criarConta(usuario);
+            cc.criarContaProfessor(usuario);
 
         } catch (Exception erro) {
             JOptionPane.showMessageDialog(null, "Não foi possível realizar o cadastro:\nErro: " + erro);
@@ -537,12 +518,14 @@ public class TelaCadastro extends javax.swing.JFrame {
 
     public int efetuarCadastroAluno() {
 
-        Conta usuario = new Conta();
+        Aluno usuario = new Aluno();
         usuario.setIdPermissao(1);
         usuario.setLogin(txtUsuario.getText());
         usuario.setNomeCompleto(txtNomeAluno.getText());
         usuario.setSenha(txtSenha.getText());
-
+        
+        usuario.setIdSerie(cbSerie.getSelectedIndex() + 1);
+     
         if (txtUsuario.getText().isEmpty() || txtNomeAluno.getText().isEmpty() || !txtSenha.getText().equals(txtConfirmSenha.getText())) {
             if (!txtSenha.getText().equals(txtConfirmSenha.getText())) {
                 JOptionPane.showMessageDialog(null, "Senhas não coincidem!");
@@ -552,7 +535,7 @@ public class TelaCadastro extends javax.swing.JFrame {
             return 0;
         }
         try {
-            cc.criarConta(usuario);
+            cc.criarContaAluno(usuario);
 
         } catch (Exception erro) {
             JOptionPane.showMessageDialog(null, "Não foi possível realizar o cadastro!\nErro: " + erro);
@@ -601,8 +584,8 @@ public class TelaCadastro extends javax.swing.JFrame {
     private javax.swing.JPanel abaProfessor;
     private javax.swing.JButton btEfetuarCadProf;
     private javax.swing.JButton btEfetuarCadastroAl;
+    private javax.swing.JComboBox<String> cbDisiciplina;
     private javax.swing.JComboBox<String> cbSerie;
-    private javax.swing.JComboBox<String> cbTurma;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
@@ -618,12 +601,10 @@ public class TelaCadastro extends javax.swing.JFrame {
     private javax.swing.JLabel lbSenhaAluno;
     private javax.swing.JLabel lbSenhaProf;
     private javax.swing.JLabel lbSerie;
-    private javax.swing.JLabel lbTurma;
     private javax.swing.JLabel lbUsername;
     private javax.swing.JLabel lbUsernameProf;
     private javax.swing.JPasswordField txtConfirmSenha;
     private javax.swing.JPasswordField txtConfirmSenhaProf;
-    private javax.swing.JTextField txtDisciplina;
     private javax.swing.JTextField txtNomeAluno;
     private javax.swing.JTextField txtNomeProf;
     private javax.swing.JPasswordField txtSenha;

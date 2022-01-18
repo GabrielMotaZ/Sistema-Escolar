@@ -8,7 +8,10 @@ import Controllers.NotaController;
 import controllers.ContaController;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
@@ -28,6 +31,8 @@ public class TelaMenu extends javax.swing.JFrame {
     public String usuarioLogado;
     public String permissaoUsuario;
     public String idUsuario;
+    public int idDisciplina;
+    public int idSerie;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -54,7 +59,6 @@ public class TelaMenu extends javax.swing.JFrame {
         FrAddNotaEPresenca = new javax.swing.JFrame();
         jPanel3 = new javax.swing.JPanel();
         lblDisciplina = new javax.swing.JLabel();
-        tfDisciplina = new javax.swing.JTextField();
         lblNota = new javax.swing.JLabel();
         tfNota = new javax.swing.JTextField();
         lblFaltas = new javax.swing.JLabel();
@@ -62,6 +66,7 @@ public class TelaMenu extends javax.swing.JFrame {
         btnGravar = new javax.swing.JButton();
         scrpnTblAlunos = new javax.swing.JScrollPane();
         tblAlunos = new javax.swing.JTable();
+        lblDisciplina2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         lblUsuarioLogado = new javax.swing.JLabel();
         lblPermissao = new javax.swing.JLabel();
@@ -75,25 +80,34 @@ public class TelaMenu extends javax.swing.JFrame {
                 g.drawImage(image,0,0,getWidth(),getHeight(),this);
             }
         };
+        jLabel2 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuAluno = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         menuProfessor = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         menuConfig = new javax.swing.JMenu();
-        jMenuItem7 = new javax.swing.JMenuItem();
+        menuTrocarUsuario = new javax.swing.JMenuItem();
         menuSair = new javax.swing.JMenu();
 
         FrBoletim.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         FrBoletim.setTitle("Boletim");
         FrBoletim.setIconImages(null);
         FrBoletim.setLocation(new java.awt.Point(500, 300));
-        FrBoletim.setMinimumSize(new java.awt.Dimension(440, 440));
+        FrBoletim.setMinimumSize(new java.awt.Dimension(500, 300));
+        FrBoletim.setPreferredSize(new java.awt.Dimension(500, 300));
+        FrBoletim.setResizable(false);
         FrBoletim.addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 FrBoletimWindowActivated(evt);
             }
         });
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setMinimumSize(new java.awt.Dimension(480, 330));
+        jPanel2.setPreferredSize(new java.awt.Dimension(480, 330));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel1.setText("Nome:");
@@ -119,6 +133,8 @@ public class TelaMenu extends javax.swing.JFrame {
         lblTurma.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         lblTurma.setText("jLabel8");
 
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(300, 265));
+
         tabelaNotas.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         tabelaNotas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -136,9 +152,14 @@ public class TelaMenu extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tabelaNotas.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        tabelaNotas.setAutoscrolls(false);
         tabelaNotas.setGridColor(new java.awt.Color(220, 220, 220));
+        tabelaNotas.setMaximumSize(new java.awt.Dimension(225, 0));
+        tabelaNotas.setMinimumSize(new java.awt.Dimension(225, 0));
         tabelaNotas.setRowHeight(18);
-        tabelaNotas.setSelectionBackground(new java.awt.Color(153, 204, 255));
+        tabelaNotas.setSelectionBackground(new java.awt.Color(0, 51, 153));
+        tabelaNotas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tabelaNotas);
 
         jButton1.setText("Voltar");
@@ -165,78 +186,79 @@ public class TelaMenu extends javax.swing.JFrame {
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(lblId)))
-                        .addGap(130, 130, 130)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 195, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblTurma)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
+                                .addComponent(lblTurma))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 12, Short.MAX_VALUE))))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(lblNomeBol)
-                            .addComponent(jLabel5)
-                            .addComponent(lblSerie))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(lblId)
-                            .addComponent(jLabel7)
-                            .addComponent(lblTurma)))
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(16, 16, 16)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(lblNomeBol)
+                    .addComponent(jLabel5)
+                    .addComponent(lblSerie)
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(lblId)
+                    .addComponent(jLabel7)
+                    .addComponent(lblTurma))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout FrBoletimLayout = new javax.swing.GroupLayout(FrBoletim.getContentPane());
         FrBoletim.getContentPane().setLayout(FrBoletimLayout);
         FrBoletimLayout.setHorizontalGroup(
             FrBoletimLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 443, Short.MAX_VALUE)
-            .addGroup(FrBoletimLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(FrBoletimLayout.createSequentialGroup()
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(FrBoletimLayout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 20, Short.MAX_VALUE))
         );
         FrBoletimLayout.setVerticalGroup(
             FrBoletimLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 440, Short.MAX_VALUE)
-            .addGroup(FrBoletimLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(FrBoletimLayout.createSequentialGroup()
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 84, Short.MAX_VALUE)))
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        FrAddNotaEPresenca.setMinimumSize(new java.awt.Dimension(361, 262));
+        FrAddNotaEPresenca.setTitle("Adicionar Notas e Faltas");
+        FrAddNotaEPresenca.setLocationByPlatform(true);
+        FrAddNotaEPresenca.setMinimumSize(new java.awt.Dimension(470, 331));
+        FrAddNotaEPresenca.setResizable(false);
         FrAddNotaEPresenca.addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 FrAddNotaEPresencaWindowActivated(evt);
             }
         });
 
-        lblDisciplina.setText("Disciplina");
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        lblNota.setText("Nota");
+        lblDisciplina.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblDisciplina.setText("Disciplina:");
 
-        lblFaltas.setText("Faltas");
+        lblNota.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblNota.setText("Nota:");
 
+        lblFaltas.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblFaltas.setText("Faltas:");
+
+        btnGravar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnGravar.setText("Gravar");
         btnGravar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -255,12 +277,25 @@ public class TelaMenu extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
         scrpnTblAlunos.setViewportView(tblAlunos);
+        if (tblAlunos.getColumnModel().getColumnCount() > 0) {
+            tblAlunos.getColumnModel().getColumn(1).setPreferredWidth(15);
+        }
+
+        lblDisciplina2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblDisciplina2.setText("jLabel2");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -271,42 +306,41 @@ public class TelaMenu extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnGravar)
-                            .addComponent(scrpnTblAlunos, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(23, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                            .addComponent(lblFaltas)
+                            .addComponent(lblNota))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblNota)
-                            .addComponent(lblDisciplina)
-                            .addComponent(lblFaltas))
-                        .addGap(38, 38, 38)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tfDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(tfNota, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tfFaltas, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(137, 137, 137))))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(tfFaltas, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnGravar))))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(lblDisciplina)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblDisciplina2))
+                    .addComponent(scrpnTblAlunos, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblDisciplina))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblDisciplina)
+                    .addComponent(lblDisciplina2, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(lblNota)
                     .addComponent(tfNota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(lblFaltas)
-                    .addComponent(tfFaltas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfFaltas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGravar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(scrpnTblAlunos, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnGravar)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addGap(20, 20, 20))
         );
 
         lblDisciplina.getAccessibleContext().setAccessibleName("lblDisciplina");
@@ -371,15 +405,45 @@ public class TelaMenu extends javax.swing.JFrame {
                     .addComponent(lblUsuario)))
         );
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Desenvolvido por:");
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Gabriel Mota");
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Gabriel Augusto");
+
+        painelFundo.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        painelFundo.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        painelFundo.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         javax.swing.GroupLayout painelFundoLayout = new javax.swing.GroupLayout(painelFundo);
         painelFundo.setLayout(painelFundoLayout);
         painelFundoLayout.setHorizontalGroup(
             painelFundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 770, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelFundoLayout.createSequentialGroup()
+                .addContainerGap(569, Short.MAX_VALUE)
+                .addGroup(painelFundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelFundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel4)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(41, 41, 41))
         );
         painelFundoLayout.setVerticalGroup(
             painelFundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 397, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelFundoLayout.createSequentialGroup()
+                .addContainerGap(272, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6)
+                .addGap(61, 61, 61))
         );
 
         menuAluno.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/student.png"))); // NOI18N
@@ -413,17 +477,24 @@ public class TelaMenu extends javax.swing.JFrame {
         menuConfig.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/configuracoes.png"))); // NOI18N
         menuConfig.setText("Configurações");
 
-        jMenuItem7.setText("Trocar de Usuário");
-        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+        menuTrocarUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/trocar.png"))); // NOI18N
+        menuTrocarUsuario.setText("Trocar de Usuário");
+        menuTrocarUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem7ActionPerformed(evt);
+                menuTrocarUsuarioActionPerformed(evt);
             }
         });
-        menuConfig.add(jMenuItem7);
+        menuConfig.add(menuTrocarUsuario);
 
         jMenuBar1.add(menuConfig);
 
+        menuSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/sair.png"))); // NOI18N
         menuSair.setText("Sair");
+        menuSair.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuSairMouseClicked(evt);
+            }
+        });
         menuSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuSairActionPerformed(evt);
@@ -449,12 +520,13 @@ public class TelaMenu extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     public void listar() {
 
-        ContaController cc = new ContaController();
-        List<Aluno> lista = cc.listarNotas(usuarioLogado);
+        NotaController nota = new NotaController();
+        List<Aluno> lista = nota.listarNotas(usuarioLogado);
 
         DefaultTableModel dados = (DefaultTableModel) tabelaNotas.getModel();
 
@@ -470,9 +542,40 @@ public class TelaMenu extends javax.swing.JFrame {
 
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+
         lblUsuarioLogado.setText(usuarioLogado);
         lblPermissaoObtida.setText(permissaoUsuario);
-        
+
+        switch (idDisciplina) {
+            case 1 ->
+                lblDisciplina2.setText("Português");
+            case 2 ->
+                lblDisciplina2.setText("Matemática");
+            case 3 ->
+                lblDisciplina2.setText("História");
+            case 4 ->
+                lblDisciplina2.setText("Geografia");
+            case 5 ->
+                lblDisciplina2.setText("Ciência");
+            case 6 ->
+                lblDisciplina2.setText("Artes");
+            case 7 ->
+                lblDisciplina2.setText("Educação Física");
+            case 8 ->
+                lblDisciplina2.setText("Inglês");
+            default -> {
+            }
+        }
+        if (idSerie != 0) {
+            try {
+                NotaController dados = new NotaController();
+                System.out.println("idSerie: " + idSerie);
+                lblSerie.setText(dados.getSerie(idSerie) + "ª Série");
+                lblTurma.setText(dados.getTurma(idSerie));
+            } catch (SQLException erro) {
+                Logger.getLogger(TelaMenu.class.getName()).log(Level.SEVERE, null, erro);
+            }
+        }
 
 
     }//GEN-LAST:event_formWindowActivated
@@ -485,28 +588,21 @@ public class TelaMenu extends javax.swing.JFrame {
         FrAddNotaEPresenca.setVisible(true);        // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
-    private void FrBoletimWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_FrBoletimWindowActivated
-        lblNomeBol.setText(lblUsuarioLogado.getText());
-        lblId.setText(idUsuario);
-        listar();
-    }//GEN-LAST:event_FrBoletimWindowActivated
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        FrBoletim.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void menuSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSairActionPerformed
         this.dispose();
     }//GEN-LAST:event_menuSairActionPerformed
 
-    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem7ActionPerformed
+    private void menuTrocarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuTrocarUsuarioActionPerformed
+        this.dispose();
+        TelaLogin.logou = 0;
+        TelaLogin telaLogin = new TelaLogin();
+        telaLogin.setVisible(true);// TODO add your handling code here:
+    }//GEN-LAST:event_menuTrocarUsuarioActionPerformed
 
     private void FrAddNotaEPresencaWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_FrAddNotaEPresencaWindowActivated
 
-        ContaController cc = new ContaController();
-        List<Conta> lista = cc.ListarAlunos();
+        NotaController nota = new NotaController();
+        List<Conta> lista = nota.ListarAlunos();
 
         DefaultTableModel dados = (DefaultTableModel) tblAlunos.getModel();
 
@@ -527,9 +623,23 @@ public class TelaMenu extends javax.swing.JFrame {
         aluno.setFaltas(Integer.parseInt(tfFaltas.getText()));
         aluno.setNota(Integer.parseInt(tfNota.getText()));
         aluno.setRA(tblAlunos.getValueAt(tblAlunos.getSelectedRow(), 1).toString());
-        aluno.setDisciplina(tfDisciplina.getText());
-        notaController.gravarNota(aluno);
+        aluno.setDisciplina(lblDisciplina2.getText());
+        notaController.gravarNota(aluno, lblDisciplina2.getText());
     }//GEN-LAST:event_btnGravarActionPerformed
+
+    private void menuSairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuSairMouseClicked
+        this.dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_menuSairMouseClicked
+
+    private void FrBoletimWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_FrBoletimWindowActivated
+        lblNomeBol.setText(lblUsuarioLogado.getText());
+        lblId.setText(idUsuario);
+        listar();
+    }//GEN-LAST:event_FrBoletimWindowActivated
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        FrBoletim.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -575,18 +685,21 @@ public class TelaMenu extends javax.swing.JFrame {
     private javax.swing.JButton btnGravar;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblDisciplina;
+    private javax.swing.JLabel lblDisciplina2;
     private javax.swing.JLabel lblFaltas;
     private javax.swing.JLabel lblId;
     private javax.swing.JLabel lblNomeBol;
@@ -601,11 +714,11 @@ public class TelaMenu extends javax.swing.JFrame {
     private javax.swing.JMenu menuConfig;
     public javax.swing.JMenu menuProfessor;
     private javax.swing.JMenu menuSair;
+    private javax.swing.JMenuItem menuTrocarUsuario;
     private javax.swing.JDesktopPane painelFundo;
     private javax.swing.JScrollPane scrpnTblAlunos;
     private javax.swing.JTable tabelaNotas;
     private javax.swing.JTable tblAlunos;
-    private javax.swing.JTextField tfDisciplina;
     private javax.swing.JTextField tfFaltas;
     private javax.swing.JTextField tfNota;
     // End of variables declaration//GEN-END:variables

@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 public class Database {
     public Connection Conectar(Connection conexao){
         try{
-            conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/sistemaescolar", "java", "java");
+            conexao = DriverManager.getConnection("jdbc:mysql://localhost:3306/sistemaescolar", "admin", "admin");
             return conexao;
         }
         catch (SQLException erro){
